@@ -13,197 +13,81 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Typing from './Typing';
 
-const ENDPOINT="http://localhost:5000";
+const ENDPOINT = "http://localhost:5000";
 
-var socket,selectedChatCompare;
-
-
+var socket, selectedChatCompare;
 
 
-const Onechat = ({fetchAgain,setFetchAgain}) => {
-
-const [messages,setMessages]=useState([]);
-
-const [newMessages,setNewMessages]=useState("");
-
-const [loading,setLoading]=useState(false);
-
-const [socketConnected, setSocketConnected] = useState(false);
-
-const [typing, setTyping] = useState(false);
-
-const [isTyping, setIsTyping] = useState(false);
 
 
-const{user,setSelectedChat,selectedChat,chats,setChats,notification, setNotification}=ChatState();
+const Onechat = ({ fetchAgain, setFetchAgain }) => {
 
-// console.log("selected "+selectedChat);
+  const [messages, setMessages] = useState([]);
 
-const [open,SetOpen]=useState(false);
+  const [newMessages, setNewMessages] = useState("");
 
-console.log("selected chat");
-if(selectedChat){
-  // const utcTime = selectedChat.updatedAt;
-console.log(selectedChat)
+  const [loading, setLoading] = useState(false);
 
-// Create a Date object from the UTC time string
+  const [socketConnected, setSocketConnected] = useState(false);
 
-const istTime = new Date(`${selectedChat.updatedAt}`);
+  const [typing, setTyping] = useState(false);
 
-const hours = istTime.getHours();
-const minutes = istTime.getMinutes();
-
-const istTimeString = `${hours}:${minutes}`;
-console.log(istTimeString); 
+  const [isTyping, setIsTyping] = useState(false);
 
 
-}
+  const { user, setSelectedChat, selectedChat, chats, setChats, notification, setNotification } = ChatState();
 
-const displayProfile=()=>{
-  SetOpen(!open);
-}
+  // console.log("selected "+selectedChat);
 
-const fetchMessages=async()=>{
-  if(!selectedChat){
-    return;
-  }
+  const [open, SetOpen] = useState(false);
 
-  
-  try {
-    const config={
-      headers:{
-        Authorization:`Bearer ${user.token}`,
-      },
-    };
-    setLoading(true);
+  console.log("selected chat");
+  if (selectedChat) {
+    // const utcTime = selectedChat.updatedAt;
+    console.log(selectedChat)
 
-    const {data}=await axios.get(
-      `/api/message/${selectedChat._id}`,
-      config
-    );
-    // console.log("masagesses");
-    // console.log(messages);
-    
-    setMessages(data);
-    setLoading(false);
-    
-    socket.emit("join chat",selectedChat._id);
-    
-  } catch (error) {
-    toast.error("Error", {
-      position: "bottom-right",
-      autoClose: 4000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      theme: "dark",
-      });
+    // Create a Date object from the UTC time string
+
+    const istTime = new Date(`${selectedChat.updatedAt}`);
+
+    const hours = istTime.getHours();
+    const minutes = istTime.getMinutes();
+
+    const istTimeString = `${hours}:${minutes}`;
+    console.log(istTimeString);
+
 
   }
 
-}
-useEffect(() => {
-
-  // changes made here(user in dependency aaray) else we will fetch from local storage
-
-  socket=io(ENDPOINT);
-  if(user){
-  socket.emit("setup",user);
+  const displayProfile = () => {
+    SetOpen(!open);
   }
-  socket.on("connected",()=>{setSocketConnected(true)});
 
-  socket.on("typing",()=>setIsTyping(true));
-  socket.on("stop typing",()=>setIsTyping(false));
-
-
-},[user]);
-
-useEffect(() => {
-  fetchMessages();
-  selectedChatCompare=selectedChat;
-  // console.log(selectedChat);
-}, [selectedChat]);
-
-//making changes...........................................................
-useEffect(() => {
-socket.on("message recieved",(newMessageRecieved)=>{
-  // console.log("testing");
-
-  if(!selectedChatCompare || selectedChatCompare._id !==newMessageRecieved.chat._id){
-
-    // if(!notification.includes(newMessageRecieved)){
-    //   console.log("Enter3");
-    //   setNotification([newMessageRecieved, ...notification]);
-    //   setFetchAgain(!fetchAgain);
-    //   // console.log("notification......."+notification);
-    // }
-    
-
-  }
-  else{
-    // console.log("enter");
-
-    setMessages([...messages,newMessageRecieved]);
-
-  }
-})
-
-
-socket.on("notification",(newMessageRecieved)=>{
-
-  if(!selectedChatCompare || selectedChatCompare._id !==newMessageRecieved.chat._id){
-
-    if(!notification.includes(newMessageRecieved)){
-      setNotification([newMessageRecieved, ...notification]);
-      setFetchAgain(!fetchAgain);
+  const fetchMessages = async () => {
+    if (!selectedChat) {
+      return;
     }
-    
 
-  }
-})
-})
-
-//Socket io useEffect
-
-
- 
-const sendMessage=async(event)=>{
-
-  if (event.keyCode === 13) {
-
-    socket.emit("stop typing",selectedChat._id);
-    
 
     try {
-
-      const config={
-        headers:{
-          "Content-Type":"application/json",
-          Authorization:`Bearer ${user.token}`,
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
         },
       };
-      
-      
-      setNewMessages("");
+      setLoading(true);
 
-      const {data}=await axios.post(
-        "/api/message",
-        {
-          content:newMessages,
-          chatId:selectedChat._id,
-        },
+      const { data } = await axios.get(
+        `/api/message/${selectedChat._id}`,
         config
-
       );
-      
-      // console.log("data")
-      // console.log(data);
+      // console.log("masagesses");
+      // console.log(messages);
 
-      socket.emit("new message",data);
-      setMessages([...messages,data]);
-      // fetchAgain();
-      setFetchAgain(!fetchAgain);
+      setMessages(data);
+      setLoading(false);
+
+      socket.emit("join chat", selectedChat._id);
 
     } catch (error) {
       toast.error("Error", {
@@ -214,46 +98,162 @@ const sendMessage=async(event)=>{
         pauseOnHover: true,
         draggable: true,
         theme: "dark",
-        });
+      });
 
     }
-    // console.log('Enter');
-  }
-
-};
-
-const typingHandler=async(event)=>{
-  setNewMessages(event.target.value);
-
-  if(!socketConnected){
-    
-    return;
-  }
-  if(!typing){
-    // console.log(socketConnected)
-    setTyping(true);
-    socket.emit("typing",selectedChat._id);
 
   }
+  useEffect(() => {
 
-  var lastTypingTime=new Date().getTime();
-  var timerLength=2000;
+    // changes made here(user in dependency aaray) else we will fetch from local storage
 
-  setTimeout(() => {
-    var timeNow=new Date().getTime();
-    var timeDiff=timeNow-lastTypingTime;
-    socket.emit("stop typing",selectedChat._id);
-    setTyping(false);
-    // if(timeDiff >= timerLength && typing){
-    //   socket.emit("stop typing",selectedChat._id);
-    //   setTyping(false);
-    // }
-  }, timerLength);
+    socket = io(ENDPOINT);
+    if (user) {
+      socket.emit("setup", user);
+    }
+    socket.on("connected", () => { setSocketConnected(true) });
 
-};
+    socket.on("typing", () => setIsTyping(true));
+    socket.on("stop typing", () => setIsTyping(false));
 
 
-// console.log(user);
+  }, [user]);
+
+  useEffect(() => {
+    fetchMessages();
+    selectedChatCompare = selectedChat;
+    // console.log(selectedChat);
+  }, [selectedChat]);
+
+  //making changes...........................................................
+  useEffect(() => {
+    socket.on("message recieved", (newMessageRecieved) => {
+      // console.log("testing");
+
+      if (!selectedChatCompare || selectedChatCompare._id !== newMessageRecieved.chat._id) {
+
+        // if(!notification.includes(newMessageRecieved)){
+        //   console.log("Enter3");
+        //   setNotification([newMessageRecieved, ...notification]);
+        //   setFetchAgain(!fetchAgain);
+        //   // console.log("notification......."+notification);
+        // }
+
+
+      }
+      else {
+        // console.log("enter");
+
+        setMessages([...messages, newMessageRecieved]);
+
+      }
+    })
+
+
+    socket.on("notification", (newMessageRecieved) => {
+
+      if (!selectedChatCompare || selectedChatCompare._id !== newMessageRecieved.chat._id) {
+
+        if (!notification.includes(newMessageRecieved)) {
+          setNotification([newMessageRecieved, ...notification]);
+          setFetchAgain(!fetchAgain);
+        }
+
+
+      }
+    })
+  })
+
+  //Socket io useEffect
+
+
+
+  const sendMessage = async (event) => {
+
+    if (event.keyCode === 13) {
+
+      socket.emit("stop typing", selectedChat._id);
+
+
+      try {
+
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        };
+
+
+        setNewMessages("");
+
+        const { data } = await axios.post(
+          "/api/message",
+          {
+            content: newMessages,
+            chatId: selectedChat._id,
+          },
+          config
+
+        );
+
+        // console.log("data")
+        // console.log(data);
+
+        socket.emit("new message", data);
+        setMessages([...messages, data]);
+        // fetchAgain();
+        setFetchAgain(!fetchAgain);
+
+      } catch (error) {
+        toast.error("Error", {
+          position: "bottom-right",
+          autoClose: 4000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
+        });
+
+      }
+      // console.log('Enter');
+    }
+
+  };
+
+  const typingHandler = async (event) => {
+    setNewMessages(event.target.value);
+
+    if (!socketConnected) {
+
+      return;
+    }
+    if (!typing) {
+      // console.log(socketConnected)
+      setTyping(true);
+      socket.emit("typing", selectedChat._id);
+
+    }
+
+    var lastTypingTime = new Date().getTime();
+    var timerLength = 2000;
+
+    setTimeout(() => {
+      var timeNow = new Date().getTime();
+      var timeDiff = timeNow - lastTypingTime;
+      socket.emit("stop typing", selectedChat._id);
+      setTyping(false);
+      // if(timeDiff >= timerLength && typing){
+      //   socket.emit("stop typing",selectedChat._id);
+      //   setTyping(false);
+      // }
+    }, timerLength);
+
+  };
+
+
+  // console.log(user);
   return (
     <div className="Onechat">
       <div className="onechat-header">
@@ -262,8 +262,8 @@ const typingHandler=async(event)=>{
             {selectedChat.isGroupChat
               ? selectedChat.chatName.toUpperCase()
               : selectedChat.users[0]._id === user._id
-              ? selectedChat.users[1].name.toUpperCase()
-              : selectedChat.users[0].name.toUpperCase()}
+                ? selectedChat.users[1].name.toUpperCase()
+                : selectedChat.users[0].name.toUpperCase()}
           </h2>
         ) : (
           <></>
