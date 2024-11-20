@@ -14,54 +14,55 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 
-const Allchats = ({fetchAgain}) => {
-//removing user since connot fetch user from global state ;
-  const{setSelectedChat,selectedChat,chats,setChats}=ChatState();
+const Allchats = ({ fetchAgain }) => {
+  //removing user since connot fetch user from global state ;
+  const { setSelectedChat, selectedChat, chats, setChats } = ChatState();
 
   // const[loggedUser,SetLoggedUser]=useState();
 
-  const[groupChatName,setGroupChatName]=useState();
-  const[selectedUser,setSelectedUser]=useState([]);
+  const [groupChatName, setGroupChatName] = useState();
+  const [selectedUser, setSelectedUser] = useState([]);
 
-  const[search,setSearch]=useState();
-  const[searchResult,setSearchResult]=useState([]);
-  const[loading,setLoading]=useState(false);
-  var user=JSON.parse(localStorage.getItem("userInfo")); //therefore fetching user temporary ...will resolve afterwards.
-  
-  const timehaldler=(chat)=>{
+  const [search, setSearch] = useState();
+  const [searchResult, setSearchResult] = useState([]);
+  const [loading, setLoading] = useState(false);
+  var user = JSON.parse(localStorage.getItem("userInfo")); //therefore fetching user temporary ...will resolve afterwards.
+
+  const timehaldler = (chat) => {
     const istTime = new Date(`${chat.updatedAt}`);
 
-const hours = istTime.getHours();
-const minutes = istTime.getMinutes();
+    const hours = istTime.getHours();
+    const minutes = istTime.getMinutes();
 
-const istTimeString = `${hours}:${minutes}`;
-console.log(istTimeString); 
-return istTimeString;
+    const istTimeString = `${hours}:${minutes}`;
+    console.log(istTimeString);
+    return istTimeString;
 
   }
-  const HandleSearch=async(query)=>{
-    if(!query){
+  const HandleSearch = async (query) => {
+    if (!query) {
       return;
     }
 
     try {
       setLoading(true);
       setSearch(query);
-  
-      const config={
-        headers:{Authorization:`Bearer ${user.token}`,
-      },
-  
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+
       };
-  
-      const {data}=await axios.get(`/api/user?search=${search}`,config);
-      
+
+      const { data } = await axios.get(`/api/user?search=${search}`, config);
+
       setSearchResult(data);
       // console.log("data itthe hai");
       // console.log(data);
-      
+
     } catch (error) {
-      
+
       toast.error("Error Occured failed to load Results!!!", {
         position: "bottom-right",
         autoClose: 4000,
@@ -70,15 +71,15 @@ return istTimeString;
         pauseOnHover: true,
         draggable: true,
         theme: "dark",
-        });
+      });
 
     }
     setLoading(false);
   }
-// SUBMIT HANDLER
+  // SUBMIT HANDLER
 
-  const HandleSubmit=async()=>{
-    if(!groupChatName || !selectedUser){
+  const HandleSubmit = async () => {
+    if (!groupChatName || !selectedUser) {
       toast.warn("Fill All required info", {
         position: "bottom-right",
         autoClose: 4000,
@@ -87,10 +88,10 @@ return istTimeString;
         pauseOnHover: true,
         draggable: true,
         theme: "dark",
-        });
+      });
       return;
     }
-    if(selectedUser.length<2){
+    if (selectedUser.length < 2) {
       toast.warn("Add min two users", {
         position: "bottom-right",
         autoClose: 4000,
@@ -99,28 +100,29 @@ return istTimeString;
         pauseOnHover: true,
         draggable: true,
         theme: "dark",
-        });
+      });
       return;
     }
-    
-   
+
+
     try {
 
 
-      const config={
-        headers:{Authorization:`Bearer ${user.token}`,
-      },
-  
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+
       };
-  
-      const {data}=await axios.post(`/api/chat/group`,{
-        name:groupChatName,
-        users:JSON.stringify(selectedUser.map((u)=>u._id)),
-      },config);
-      setChats([data,...chats]);
+
+      const { data } = await axios.post(`/api/chat/group`, {
+        name: groupChatName,
+        users: JSON.stringify(selectedUser.map((u) => u._id)),
+      }, config);
+      setChats([data, ...chats]);
       FunctionDailog();
       // console.log(data);
-      
+
     } catch (error) {
       toast.error("error in creating groupchat", {
         position: "bottom-right",
@@ -130,18 +132,18 @@ return istTimeString;
         pauseOnHover: true,
         draggable: true,
         theme: "dark",
-        });
+      });
       // console.log("error in creating groupchat");
       console.log(error)
     }
   }
 
-  const RemoveTag=(toDel)=>{
-    setSelectedUser(selectedUser.filter((u)=>u._id !==toDel._id));
+  const RemoveTag = (toDel) => {
+    setSelectedUser(selectedUser.filter((u) => u._id !== toDel._id));
   }
 
-  const addTolist=(userToAdd)=>{
-    if(selectedUser.includes(userToAdd)){
+  const addTolist = (userToAdd) => {
+    if (selectedUser.includes(userToAdd)) {
 
       toast.warn("User already added", {
         position: "bottom-right",
@@ -151,29 +153,30 @@ return istTimeString;
         pauseOnHover: true,
         draggable: true,
         theme: "dark",
-        });
+      });
       return;
     }
 
-    setSelectedUser([...selectedUser,userToAdd]);
+    setSelectedUser([...selectedUser, userToAdd]);
   }
 
 
-  
-  const fetchChats=async()=>{
+
+  const fetchChats = async () => {
     // var user=JSON.parse(localStorage.getItem("userInfo")); //therefore fetching user temporary ...will resolve afterwards.
 
     // console.log(`userrrrr ${user}`);
     try {
-  
-      const config={
-        headers:{Authorization:`Bearer ${user.token}`,
-      },
-  
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+
       };
-  
-      const {data}=await axios.get(`/api/chat`,config);
-    
+
+      const { data } = await axios.get(`/api/chat`, config);
+
       setChats(data);
 
 
@@ -186,24 +189,24 @@ return istTimeString;
         pauseOnHover: true,
         draggable: true,
         theme: "dark",
-        });   
+      });
       console.log(error);
     }
   }
 
-useEffect(()=>{
-
-  
-fetchChats();
+  useEffect(() => {
 
 
-},[fetchAgain]);
+    fetchChats();
 
-const [open,SetOpen]=useState(false);
 
-const FunctionDailog=()=>{
-  SetOpen(!open);
-}
+  }, [fetchAgain]);
+
+  const [open, SetOpen] = useState(false);
+
+  const FunctionDailog = () => {
+    SetOpen(!open);
+  }
 
   return (
     <div className="Allchats">
@@ -245,8 +248,8 @@ const FunctionDailog=()=>{
                   {chat.isGroupChat
                     ? chat.chatName
                     : chat.users[1]._id === user._id
-                    ? chat.users[0].name
-                    : chat.users[1].name}
+                      ? chat.users[0].name
+                      : chat.users[1].name}
                 </h2>
                 {chat.lastMessage ? (
                   <p>{chat.lastMessage.content.substring(0, 10) + "..."}</p>

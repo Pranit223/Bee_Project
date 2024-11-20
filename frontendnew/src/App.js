@@ -1,4 +1,4 @@
-import { Routes,Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import ChatsPage from './Pages/ChatsPage';
 import Login from './Components/Login';
@@ -7,18 +7,18 @@ import Login from './Components/Login';
 
 function App() {
   return (
-<>
+    <>
 
-  <Routes>
-    {/* <Route path='/' Component={OptionPage}/> */}
+      <Routes>
+        {/* <Route path='/' Component={OptionPage}/> */}
 
-    <Route path='/' Component={Login}/>
-    <Route path='/chats' Component={ChatsPage}/>
+        <Route path='/' Component={Login} />
+        <Route path='/chats' Component={ChatsPage} />
 
-    {/* <Route path='/login' Component={Login}/> */}
-    {/* <Route path='/signup' Component={Signup}/> */}
-  </Routes>
-</>
+        {/* <Route path='/login' Component={Login}/> */}
+        {/* <Route path='/signup' Component={Signup}/> */}
+      </Routes>
+    </>
   );
 }
 

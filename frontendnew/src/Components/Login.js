@@ -133,9 +133,6 @@ const RedirectHandler=()=>{
             <h2>Login or <span className='option' onClick={RedirectHandler}>SignUp</span> </h2>
 
 
-
-       
-
 <input className='username-search'
   onChange={(e)=>setEmail(e.target.value)}
   type="text" 
@@ -151,20 +148,9 @@ const RedirectHandler=()=>{
          </button>
 
 </div>
- 
-
-
-
-
-
-
-         
-
-
 
   <Button className='login-button' variant="contained" onClick={submitHandler} >Login</Button>
 
-            
             </>):(<>
             <Signup islogin={islogin} setIslogin={setIslogin}/>
             
@@ -188,12 +174,6 @@ pauseOnHover
 theme="dark"
 />
     </div>
-    
-
-
-    
-
-    
     </>
     
   )
