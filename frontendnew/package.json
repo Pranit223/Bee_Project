@@ -2,7 +2,7 @@
   "name": "frontendnew",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://127.0.0.1:5000",
+  "proxy": "https://bee-project-viwy.onrender.com",
   "dependencies": {
     "@chakra-ui/react": "^2.10.4",
     "@emotion/react": "^11.13.5",

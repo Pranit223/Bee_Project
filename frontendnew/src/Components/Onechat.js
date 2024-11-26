@@ -13,7 +13,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Typing from './Typing';
 
-const ENDPOINT = "http://localhost:5000";
+const ENDPOINT = "https://bee-project-viwy.onrender.com";
 
 var socket, selectedChatCompare;
 
