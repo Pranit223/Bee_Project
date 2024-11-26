@@ -34,7 +34,8 @@ import SearchedUser from './SearchedUser';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import NotificationBadge, { Effect } from "react-notification-badge"
+import NotificationBadge from "@parthamk/notification-badge";
+import { Effect } from "@parthamk/notification-badge";
 
 const SideBar = () => {
 
