@@ -14,19 +14,28 @@ connectDB();
 
 const PORT = process.env.PORT || 5000;
 
+app.use(cors({
+    origin: '*', // Replace with your frontend domain
+    credentials: true,
+  }));
 
+app.options('*', cors()); // Enable preflight for all routes
 
 app.get('/', (req, res) => {
     res.send("api is running");
+});
+
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*"); // Replace '*' with your frontend domain
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    next();
 });
 
 
 app.use('/api/user', userRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/message', messageRoutes);
-
-
-
 
 
 const server = app.listen(PORT, console.log(`Server started at port ${PORT}`));
