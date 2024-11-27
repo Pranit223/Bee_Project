@@ -55,7 +55,7 @@ const Allchats = ({ fetchAgain }) => {
 
       };
 
-      const { data } = await axios.get(`/api/user?search=${search}`, config);
+      const { data } = await axios.get(`https://bee-project-viwy.onrender.com/api/user?search=${search}`, config);
 
       setSearchResult(data);
       // console.log("data itthe hai");
@@ -115,7 +115,7 @@ const Allchats = ({ fetchAgain }) => {
 
       };
 
-      const { data } = await axios.post(`/api/chat/group`, {
+      const { data } = await axios.post(`https://bee-project-viwy.onrender.com/api/chat/group`, {
         name: groupChatName,
         users: JSON.stringify(selectedUser.map((u) => u._id)),
       }, config);
@@ -175,7 +175,7 @@ const Allchats = ({ fetchAgain }) => {
 
       };
 
-      const { data } = await axios.get(`/api/chat`, config);
+      const { data } = await axios.get(`https://bee-project-viwy.onrender.com/api/chat`, config);
 
       setChats(data);
 

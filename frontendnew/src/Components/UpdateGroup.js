@@ -93,7 +93,7 @@ const UpdateGroup = ({fetchAgain,setFetchAgain}) => {
               };
         
 
-              const {data}=await axios.put(`/api/chat/groupremove`,{
+              const {data}=await axios.put(`https://bee-project-viwy.onrender.com/api/chat/groupremove`,{
                 chatId:selectedChat._id,
                 userId:e._id,
               },config);
@@ -139,7 +139,7 @@ const UpdateGroup = ({fetchAgain,setFetchAgain}) => {
               };
         
 
-              const {data}=await axios.put(`/api/chat/rename`,{
+              const {data}=await axios.put(`https://bee-project-viwy.onrender.com/api/chat/rename`,{
                 chatId:selectedChat._id,
                 chatName:groupChatName,
               },config);
@@ -182,7 +182,7 @@ const UpdateGroup = ({fetchAgain,setFetchAgain}) => {
         
             };
         
-            const {data}=await axios.get(`/api/user?search=${search}`,config);
+            const {data}=await axios.get(`https://bee-project-viwy.onrender.com/api/user?search=${search}`,config);
             
             setSearchResult(data);
             // console.log("data itthe hai");
@@ -245,7 +245,7 @@ const UpdateGroup = ({fetchAgain,setFetchAgain}) => {
               };
         
 
-              const {data}=await axios.put(`/api/chat/groupadd`,{
+              const {data}=await axios.put(`https://bee-project-viwy.onrender.com/api/chat/groupadd`,{
                 chatId:selectedChat._id,
                 userId:e._id,
               },config);

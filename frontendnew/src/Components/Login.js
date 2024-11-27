@@ -70,7 +70,7 @@ const RedirectHandler=()=>{
           },
         };
 
-        const {data}=await axios.post("/api/user/login",{
+        const {data}=await axios.post("https://bee-project-viwy.onrender.com/api/user/login",{
           email,password
         },config
         );
