@@ -1,5 +1,6 @@
 const express = require("express");
 const chats = require('./Data/data');
+const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const userRoutes = require('./UserRoutes/UserRoutes');
