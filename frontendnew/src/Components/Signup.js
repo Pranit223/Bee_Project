@@ -64,7 +64,7 @@ const Signup = ({ islogin, setIslogin }) => {
         },
       };
 
-      const { data } = await axios.post("/api/user", {
+      const { data } = await axios.post("https://bee-project-viwy.onrender.com/api/user", {
         name, email, password, pic
       }, config
       );

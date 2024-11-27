@@ -104,7 +104,7 @@ const searchHandler=async()=>{
 
     };
 
-    const {data}=await axios.get(`/api/user?search=${search}`,config);
+    const {data}=await axios.get(`https://bee-project-viwy.onrender.com/api/user?search=${search}`,config);
     
     setSearchResult(data);
     // console.log("data itthe hai");
@@ -138,7 +138,7 @@ const accessChat= async(userId)=>{
 
     };
 
-    const {data}=await axios.post('/api/chat',{userId},config);
+    const {data}=await axios.post('https://bee-project-viwy.onrender.com/api/chat',{userId},config);
     
     // console.log("heee data");
     // console.log(data);

@@ -78,7 +78,7 @@ const Onechat = ({ fetchAgain, setFetchAgain }) => {
       setLoading(true);
 
       const { data } = await axios.get(
-        `/api/message/${selectedChat._id}`,
+        `https://bee-project-viwy.onrender.com/api/message/${selectedChat._id}`,
         config
       );
       // console.log("masagesses");
@@ -188,7 +188,7 @@ const Onechat = ({ fetchAgain, setFetchAgain }) => {
         setNewMessages("");
 
         const { data } = await axios.post(
-          "/api/message",
+          "https://bee-project-viwy.onrender.com/api/message",
           {
             content: newMessages,
             chatId: selectedChat._id,
