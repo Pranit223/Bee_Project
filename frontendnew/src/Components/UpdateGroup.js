@@ -291,7 +291,7 @@ const UpdateGroup = ({fetchAgain,setFetchAgain}) => {
 
 
 <Dialog className='profile-selectedGroup-dailog' open={open} onClose={displayProfile}>
-<h1>
+<h1 className='updateGrouph1'>
 {selectedChat.chatName.toUpperCase()}
 </h1>
 
@@ -314,10 +314,7 @@ theme="dark"
               
               <SelectedtUserTag key={e._id} SelectedUser={e} Handleremove={()=>RemoveTag(e)}/>
             ))}
-
-
  </div>
-
 <div className="in-one">
 
 
@@ -340,21 +337,6 @@ theme="dark"
             // value={search}
             placeholder='Search User' />
 
-            {/* SELECTED USERS */}
-
-          {/* <div className="SelectedUser-div">
-          {selectedUser?.map((e)=>(
-              
-              <SelectedtUserTag key={e._id} SelectedUser={e} Handleremove={()=>RemoveTag(e)}/>
-            ))}
-
-
-          </div> */}
-
-
-
-
-                {/* Render Search Users */}
                 {loading?(<SpinnerLoading/>):(
               searchResult?.slice(0,4).map((e)=>(
                 
